@@ -1,11 +1,13 @@
 <template>
   <div class="container">
-    <SearchBar 
-      v-model:modelValue="search"
-      :regions="['Africa', 'Americas', 'Asia', 'Europe', 'Oceania']"
-      v-model:region="region"
-      v-model:sort="sort"
-    />
+    <Hero>
+      <SearchBar 
+        v-model:modelValue="search"
+        :regions="['Africa', 'Americas', 'Asia', 'Europe', 'Oceania']"
+        v-model:region="region"
+        v-model:sort="sort"
+      />
+    </Hero>
 
     <div class="grid">
       <CountryCard 
@@ -20,19 +22,20 @@
     <Pagination 
       :total="filtered.length"
       :page="page"
-      :perPage="15"
+      :perPage="16"
       @change="page = $event"
     />
   </div>
 </template>
 
 <script>
+import Hero from "../components/Hero.vue";
 import CountryCard from "../components/CountryCard.vue";
 import SearchBar from "../components/SearchBar.vue";
 import Pagination from "../components/Pagination.vue";
 
 export default {
-  components: { CountryCard, SearchBar, Pagination },
+  components: { Hero, CountryCard, SearchBar, Pagination },
 
   data() {
     return {
@@ -41,6 +44,7 @@ export default {
       region: "",
       sort: "",
       page: 1,
+      favourites: []
     };
   },
 
@@ -49,18 +53,17 @@ export default {
       const res = await fetch(
         "https://restcountries.com/v3.1/all?fields=name,flags,cca3,region,subregion,capital,population"
       );
-
-      if (!res.ok) return console.error("API failed:", res.status);
-
-      const data = await res.json();
-
-      if (Array.isArray(data)) {
-        this.all = data;
-        console.log("Countries loaded:", data.length);
+      if (!res.ok) {
+        console.error("API failed:", res.status);
+        return;
       }
+      const data = await res.json();
+      if (Array.isArray(data)) this.all = data;
     } catch (err) {
       console.error("API error:", err);
     }
+
+    this.loadFav();
   },
 
   computed: {
@@ -87,29 +90,26 @@ export default {
     },
 
     paginated() {
-      const start = (this.page - 1) * 15;
-      return this.filtered.slice(start, start + 15);
+      const start = (this.page - 1) * 16;
+      return this.filtered.slice(start, start + 16);
     }
   },
 
   methods: {
-    isFav(c) {
-      const fav = JSON.parse(localStorage.getItem("fav")) || [];
-      return fav.some(f => f.cca3 === c.cca3);
+    loadFav() {
+      this.favourites = JSON.parse(localStorage.getItem("fav")) || [];
     },
-
+    isFav(c) {
+      return this.favourites.some(f => f.cca3 === c.cca3);
+    },
     toggleFav(country) {
-      let fav = JSON.parse(localStorage.getItem("fav")) || [];
-
-      const exists = fav.some(c => c.cca3 === country.cca3);
-
+      const exists = this.isFav(country);
       if (exists) {
-        fav = fav.filter(c => c.cca3 !== country.cca3);
+        this.favourites = this.favourites.filter(c => c.cca3 !== country.cca3);
       } else {
-        fav.push(country);
+        this.favourites = [...this.favourites, country];
       }
-
-      localStorage.setItem("fav", JSON.stringify(fav));
+      localStorage.setItem("fav", JSON.stringify(this.favourites));
     }
   }
 };
@@ -117,11 +117,22 @@ export default {
 
 <style scoped>
 .container {
-  padding: 30px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 20px;
+  margin-bottom: 24px;
+}
+
+/* a bit tighter on phones */
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
 }
 </style>
