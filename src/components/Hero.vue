@@ -3,6 +3,9 @@
     <div class="worldmap"></div>
     <div class="blend-layer"></div>
 
+    <!-- ✈️ Animated Plane -->
+    <div class="plane"></div>
+
     <div class="content">
       <h1>Explore Countries Around the World</h1>
       <p>Search, filter and discover insights instantly.</p>
@@ -13,6 +16,7 @@
     </div>
   </section>
 </template>
+
 
 <script>
 import worldMap from "@/assets/world_map.jpg";
@@ -27,8 +31,7 @@ export default {
 <style scoped>
 .hero {
   position: relative;
-  height: 790px;              /* FIXED: No more cropping */
-  border-radius: 20px;
+  height: 590px;              
   overflow: hidden;
   margin-bottom: 30px;
   background: var(--card-bg);
@@ -39,7 +42,7 @@ export default {
 .worldmap {
   position: absolute;
   inset: 0;
-  background-image: url("../assets/world_map.jpg");
+  background-image: url("../assets/map.avif");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -127,4 +130,43 @@ p {
     height: 700px;
   }
 }
+
+/* ✈️ PLANE ANIMATION LAYER */
+.plane {
+  position: absolute;
+  top: 60%;
+  left: -150px; /* Start off-screen */
+  width: 120px;
+  height: 120px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAG1BMVEVHcEyZmZn///+Zmf+ZmZl2dnZ6enoh4Y7Z2dnt7e0IrT3cAAAACXBIWXMAAAsTAAALEwEAmpwYAAABgUlEQVRoge2W227DMAyFj7kAGoAfXnf+TfppcI0l+PazTA/gkGEXUXMaLLq5yRvCNrI6VsgGAaHo9dZYkTfGZNVVRFlEAVYyqS/fWznuaCG2lKT9OAXoJ2Bs8LJIYur2jcWcA6i/K3PaY5E9O+V1YQUAECEV4VpWw2gw2gYdExgkt1aQAFjlGIIKgJESyqCCpt5TRTF+t0NenE2no0RvrKeUjGJPD7W82dManIeZDV4SSQSSHqzTeWYIAvzkdxlIoAgNGdisz8Iky3Uczdlz7YT1DoP70uQgmO6ijLJMEVN6aCMGN28AL5soMgqd7qV3CyMfCVx/gvBy06SnVAk0nnBYnOVrlaRykGGBqBPdZiZsaAJ+lZeI7IuAvV38DSHLVQQRIlnSRrped1IovnHgwlHGawEq+y3OCAXoTr4Wr9PXgCulvRlQCLOwBEmcLkAMPx/+qvOB0fOkH4An1xd6QbaO5wAAAABJRU5ErkJggg==");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 1; /* Above map, but below text */
+
+  animation: flyPlane 18s linear infinite;
+  opacity: 0.85;
+}
+
+/* ✈️ FLIGHT PATH (smooth diagonal) */
+@keyframes flyPlane {
+  0% {
+    transform: translateX(0px) translateY(0px) rotate(-5deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(800px) translateY(-120px) rotate(8deg);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(1500px) translateY(-200px) rotate(15deg);
+    opacity: 0;
+  }
+}
+
 </style>

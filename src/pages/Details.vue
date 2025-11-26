@@ -11,6 +11,9 @@
         <p><b>Population:</b> {{ country.population.toLocaleString() }}</p>
         <p><b>Region:</b> {{ country.region }}</p>
         <p><b>Subregion:</b> {{ country.subregion }}</p>
+        <p><b>Languages:</b> {{ Object.values(country.languages || {}).join(", ") }}</p>
+        <p><b>Currencies:</b> {{ Object.values(country.currencies || {}).map(c => c.name).join(", ") }}</p>
+        <p><b>Area:</b> {{ country.area.toLocaleString() }} km²</p>
       </div>
     </div>
   </div>

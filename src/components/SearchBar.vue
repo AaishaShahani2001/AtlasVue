@@ -1,6 +1,8 @@
 <template>
   <div class="search-wrapper">
     <div class="search-section">
+
+      <!-- Search -->
       <div class="field">
         <input
           :value="modelValue"
@@ -11,6 +13,7 @@
         />
       </div>
 
+      <!-- Region filter -->
       <div class="field">
         <select
           :value="region"
@@ -24,17 +27,25 @@
         </select>
       </div>
 
+      <!-- Sort -->
       <div class="field">
         <select
           :value="sort"
           @change="$emit('update:sort', $event.target.value)"
           class="input"
         >
-          <option value="">Sort by Population</option>
-          <option value="asc">Low → High</option>
-          <option value="desc">High → Low</option>
+          <option value="">Sort by Population / Name</option>
+
+          <!-- Population -->
+          <option value="asc">Population: Low → High</option>
+          <option value="desc">Population: High → Low</option>
+
+          <!-- NEW — A–Z & Z–A -->
+          <option value="name-asc">Name: A → Z</option>
+          <option value="name-desc">Name: Z → A</option>
         </select>
       </div>
+
     </div>
   </div>
 </template>

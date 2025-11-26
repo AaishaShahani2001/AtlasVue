@@ -51,12 +51,13 @@ export default {
   async mounted() {
     try {
       const res = await fetch(
-        "https://restcountries.com/v3.1/all?fields=name,flags,cca3,region,subregion,capital,population"
+        "https://restcountries.com/v3.1/all?fields=name,flags,cca3,region,subregion,languages,capital,population,currencies,area"
       );
       if (!res.ok) {
         console.error("API failed:", res.status);
         return;
       }
+
       const data = await res.json();
       if (Array.isArray(data)) this.all = data;
     } catch (err) {
@@ -72,19 +73,34 @@ export default {
 
       let list = [...this.all];
 
+      /* 🔍 Search */
       if (this.search)
         list = list.filter(c =>
           c.name.common.toLowerCase().includes(this.search.toLowerCase())
         );
 
+      /* 🌍 Region filter */
       if (this.region)
         list = list.filter(c => c.region === this.region);
 
+      /* 📊 Sort by population */
       if (this.sort === "asc")
         list.sort((a, b) => a.population - b.population);
 
       if (this.sort === "desc")
         list.sort((a, b) => b.population - a.population);
+
+      /* 🔤 NEW — Sort by Name A → Z */
+      if (this.sort === "name-asc")
+        list.sort((a, b) =>
+          a.name.common.localeCompare(b.name.common)
+        );
+
+      /* 🔤 NEW — Sort by Name Z → A */
+      if (this.sort === "name-desc")
+        list.sort((a, b) =>
+          b.name.common.localeCompare(a.name.common)
+        );
 
       return list;
     },
@@ -99,16 +115,20 @@ export default {
     loadFav() {
       this.favourites = JSON.parse(localStorage.getItem("fav")) || [];
     },
+
     isFav(c) {
       return this.favourites.some(f => f.cca3 === c.cca3);
     },
+
     toggleFav(country) {
       const exists = this.isFav(country);
+
       if (exists) {
         this.favourites = this.favourites.filter(c => c.cca3 !== country.cca3);
       } else {
         this.favourites = [...this.favourites, country];
       }
+
       localStorage.setItem("fav", JSON.stringify(this.favourites));
     }
   }
@@ -129,7 +149,7 @@ export default {
   margin-bottom: 24px;
 }
 
-/* a bit tighter on phones */
+/* Phones */
 @media (max-width: 480px) {
   .container {
     padding: 16px;
