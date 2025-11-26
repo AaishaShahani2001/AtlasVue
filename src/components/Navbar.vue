@@ -20,6 +20,10 @@
         <span class="heart">❤️</span>
         <span>Favourites</span>
       </router-link>
+      <router-link to="/charts" class="charts-link">
+        <span class="chart-icon">📊</span>
+        <span>Charts</span>
+      </router-link>
     </div>
   </nav>
 </template>
@@ -121,6 +125,31 @@ export default {
   border-color: var(--accent);
   box-shadow: 0 0 18px rgba(99, 102, 241, 0.45);
 }
+
+.charts-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s;
+}
+
+.charts-link .chart-icon {
+  font-size: 1rem;
+}
+
+.charts-link:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  box-shadow: 0 0 18px rgba(99, 102, 241, 0.45);
+}
+
 
 /* small screens */
 @media (max-width: 640px) {

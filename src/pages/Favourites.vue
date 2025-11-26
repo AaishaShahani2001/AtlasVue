@@ -5,10 +5,7 @@
     <h2 class="title">❤️ Favourite Countries</h2>
 
     <div v-if="fav.length === 0" class="empty-box">
-      <img 
-        src="https://cdn-icons-png.flaticon.com/512/4076/4076632.png" 
-        class="empty-img"
-      />
+      
       <p>No favourite countries yet...</p>
     </div>
 

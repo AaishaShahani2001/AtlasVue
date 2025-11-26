@@ -2,11 +2,13 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../pages/Home.vue";
 import Details from "../pages/Details.vue";
 import Favourites from "../pages/Favourites.vue";
+import Charts from "../pages/Charts.vue";
 
 const routes = [
   { path: "/", component: Home },
   { path: "/country/:code", component: Details },
-  { path: "/favourites", component: Favourites }
+  { path: "/favourites", component: Favourites },
+   { path: "/charts", component: Charts },
 ];
 
 const router = createRouter({
