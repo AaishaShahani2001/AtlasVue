@@ -136,6 +136,14 @@ export default {
   gap: 30px;
   margin-top: 20px;
   flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeDetail 0.6s ease forwards;
+}
+
+@keyframes fadeDetail {
+  to {
+    opacity: 1;
+  }
 }
 
 img {
@@ -154,6 +162,15 @@ img {
   border-radius: 14px;
   box-shadow: var(--shadow-soft);
   margin-top: 10px;
+  animation: zoomMap 0.8s ease forwards;
+  opacity: 0;
+  transform: scale(0.97);
+}
+@keyframes zoomMap {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Tablets (min-width: 600px) */

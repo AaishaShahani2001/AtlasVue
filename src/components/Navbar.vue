@@ -162,4 +162,20 @@ export default {
     justify-content: flex-start;
   }
 }
+
+.nav-right a,
+.theme-btn,
+.fav-link,
+.charts-link {
+  transition: all 0.25s ease;
+}
+
+.nav-right a:hover,
+.theme-btn:hover,
+.fav-link:hover,
+.charts-link:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.15);
+}
+
 </style>

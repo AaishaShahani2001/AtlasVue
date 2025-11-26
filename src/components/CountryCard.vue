@@ -36,10 +36,21 @@ export default {
   transition: transform 0.18s ease, box-shadow 0.18s ease;
   position: relative;
   color: var(--text);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeCard 0.5s ease forwards;
+}
+
+@keyframes fadeCard {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .card:hover {
   transform: translateY(-4px);
+  transition: all 0.25s ease;
   box-shadow: 0 14px 32px rgba(15, 23, 42, 0.22);
 }
 

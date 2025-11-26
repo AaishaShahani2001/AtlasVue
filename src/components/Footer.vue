@@ -38,6 +38,19 @@ export default {
   border-top: 1px solid var(--nav-border);
   backdrop-filter: blur(12px);
   color: var(--text);
+  animation: fadeInUp 0.7s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .footer-content {
@@ -62,12 +75,13 @@ export default {
   text-decoration: none;
   font-size: 0.9rem;
   color: var(--text);
-  transition: 0.2s ease;
+  transition: all 0.25s ease;;
 }
 
 .footer-links a:hover {
   color: var(--accent);
   text-shadow: 0 0 6px var(--accent);
+  transform: translateY(-2px);
 }
 
 /* RIGHT SIDE COPYRIGHT */

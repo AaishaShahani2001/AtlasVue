@@ -178,7 +178,16 @@ export default {
   max-width: 1100px;
   margin: auto;
   padding: 30px;
+  animation: fadeCharts 0.6s ease-out forwards;
+  opacity: 0;
 }
+
+@keyframes fadeCharts {
+  to {
+    opacity: 1;
+  }
+}
+
 
 .title {
   font-size: 32px;
@@ -205,6 +214,17 @@ export default {
   height: 350px;
   border-radius: 12px;
   box-shadow: 0 4px 10px #0001;
+  animation: slideUp 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(16px);
+
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* BIG SCREENS */
