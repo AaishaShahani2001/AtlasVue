@@ -53,7 +53,7 @@ export default {
   --input-border: #d4d4d8;
   --input-placeholder: #9ca3af;
   --text: #111827;
-  --muted: #6b7280;
+  --muted: #23252a;
   --shadow-soft: 0 10px 25px rgba(15, 23, 42, 0.08);
 }
 
@@ -70,7 +70,7 @@ export default {
   --input-border: #1f2937;
   --input-placeholder: #64748b;
   --text: #e5e7eb;
-  --muted: #9ca3af;
+  --muted: #e3e5e8;
   --shadow-soft: 0 0 25px rgba(56, 189, 248, 0.35);
 }
 </style>

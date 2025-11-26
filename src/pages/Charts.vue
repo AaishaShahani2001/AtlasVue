@@ -68,106 +68,139 @@ export default {
     },
 
     updateCharts() {
-  const filtered = this.selectedRegion
-    ? this.allCountries.filter(c => c.region === this.selectedRegion)
-    : this.allCountries;
+      const filtered = this.selectedRegion
+        ? this.allCountries.filter(c => c.region === this.selectedRegion)
+        : this.allCountries;
 
-  const activeRegions = this.selectedRegion
-    ? [this.selectedRegion]
-    : this.regions;
+      const activeRegions = this.selectedRegion
+        ? [this.selectedRegion]
+        : this.regions;
 
-  /* ------------------ PIE CHART (Population) ------------------ */
-  const pieData = activeRegions.map(r => ({
+      /* ------------------ PIE CHART (Population - Enhanced) ------------------ */
+let pieData = [];
+
+if (this.selectedRegion) {
+  // SINGLE REGION MODE → Top 3 + Others
+  const countries = this.allCountries
+    .filter(c => c.region === this.selectedRegion)
+    .sort((a, b) => b.population - a.population);
+
+  const top3 = countries.slice(0, 3);
+
+  const othersTotal = countries.slice(3).reduce((sum, c) => sum + c.population, 0);
+
+  pieData = [
+    ...top3.map((c, idx) => ({
+      name: c.name.common,
+      value: c.population,
+      itemStyle: { color: ["#3b82f6", "#10b981", "#f97316"][idx] } // blue, green, orange
+    })),
+    {
+      name: "Others",
+      value: othersTotal,
+      itemStyle: { color: this.regionColors[this.selectedRegion] }
+    }
+  ];
+} else {
+  // ALL REGIONS MODE → Regular region total
+  pieData = this.regions.map(r => ({
     name: r,
     value: this.allCountries
       .filter(c => c.region === r)
       .reduce((sum, c) => sum + c.population, 0),
     itemStyle: { color: this.regionColors[r] }
   }));
+}
 
-  this.pieInstance.setOption({
-    title: { text: "Population by Region", left: "center" },
-    tooltip: {
-      trigger: "item",
-      formatter: params => {
-        return `
-          <b>${params.name}</b><br>
-          Population: ${params.value.toLocaleString()}
-        `;
-      }
-    },
-    series: [
-      {
-        type: "pie",
-        radius: "60%",
-        data: pieData,
-        animationDuration: 1200
-      }
-    ]
-  });
+this.pieInstance.setOption({
+  title: {
+    text: this.selectedRegion
+      ? `Top Population in ${this.selectedRegion}`
+      : "Population by Region",
+    left: "center"
+  },
+  tooltip: {
+    trigger: "item",
+    formatter: params => {
+      return `
+        <b>${params.name}</b><br>
+        Population: ${params.value.toLocaleString()}
+      `;
+    }
+  },
+  series: [
+    {
+      type: "pie",
+      radius: "60%",
+      data: pieData,
+      animationDuration: 1200
+    }
+  ]
+});
 
-  /* ------------------ BAR CHART (Country Count) ------------------ */
-  this.barInstance.setOption({
-    title: { text: "Countries per Region", left: "center" },
-    tooltip: {
-      trigger: "item",
-      formatter: params => {
-        return `
+
+      /* ------------------ BAR CHART (Country Count) ------------------ */
+      this.barInstance.setOption({
+        title: { text: "Countries per Region", left: "center" },
+        tooltip: {
+          trigger: "item",
+          formatter: params => {
+            return `
           <b>${params.name}</b><br>
           Countries: ${params.value}
         `;
-      }
-    },
-    xAxis: { type: "category", data: activeRegions },
-    yAxis: { type: "value" },
-    series: [
-      {
-        type: "bar",
-        data: activeRegions.map(r => ({
-          value: this.allCountries.filter(c => c.region === r).length,
-          itemStyle: { color: this.regionColors[r] }
-        })),
-        animationDuration: 1400
-      }
-    ]
-  });
+          }
+        },
+        xAxis: { type: "category", data: activeRegions },
+        yAxis: { type: "value" },
+        series: [
+          {
+            type: "bar",
+            data: activeRegions.map(r => ({
+              value: this.allCountries.filter(c => c.region === r).length,
+              itemStyle: { color: this.regionColors[r] }
+            })),
+            animationDuration: 1400
+          }
+        ]
+      });
 
-  /* ------------------ LINE CHART (Total Area) ------------------ */
-  this.lineInstance.setOption({
-    title: { text: "Total Area per Region", left: "center" },
-    tooltip: {
-      trigger: "item",
-      formatter: params => {
-        return `
+      /* ------------------ LINE CHART (Total Area) ------------------ */
+      this.lineInstance.setOption({
+        title: { text: "Total Area per in km^2", left: "center" },
+        tooltip: {
+          trigger: "item",
+          formatter: params => {
+            return `
           <b>${params.name}</b><br>
           Area: ${params.value.toLocaleString()} km²
         `;
-      }
-    },
-    xAxis: { type: "category", data: activeRegions },
-    yAxis: { type: "value" },
-    series: [
-      {
-        type: "line",
-        smooth: true,
-        animationDuration: 1500,
-        data: activeRegions.map(r => ({
-          value: this.allCountries
-            .filter(c => c.region === r)
-            .reduce((sum, c) => sum + c.area, 0),
-          itemStyle: { color: this.regionColors[r] }
-        })),
-        lineStyle: {
-          width: 3,
-          color: this.selectedRegion
-            ? this.regionColors[this.selectedRegion]
-            : "#6366f1"
+          }
         },
-        symbol: "circle"
-      }
-    ]
-  });
-}
+        xAxis: { type: "category", data: activeRegions },
+        yAxis: { type: "value" },
+        series: [
+          {
+            type: "line",
+            smooth: true,
+            animationDuration: 1500,
+            data: activeRegions.map(r => ({
+              value: this.allCountries
+                .filter(c => c.region === r)
+                .reduce((sum, c) => sum + c.area, 0),
+              itemStyle: { color: this.regionColors[r] }
+            })),
+            lineStyle: {
+              width: 2,
+              color: this.selectedRegion
+                ? this.regionColors[this.selectedRegion]
+                : "#6366f1"
+            },
+            symbol: "circle"
+          }
+        ]
+      });
+    }
 
   }
 };
@@ -250,6 +283,6 @@ export default {
 
 .back-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 </style>
