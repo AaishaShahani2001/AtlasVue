@@ -136,14 +136,7 @@ export default {
   gap: 30px;
   margin-top: 20px;
   flex-wrap: wrap;
-  opacity: 0;
-  animation: fadeDetail 0.6s ease forwards;
-}
-
-@keyframes fadeDetail {
-  to {
-    opacity: 1;
-  }
+  
 }
 
 img {
