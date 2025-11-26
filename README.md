@@ -1,3 +1,38 @@
+🌍 AtlasVue — Country Explorer Web App
+
+  A modern, interactive country explorer built with Vue.js 3, REST Countries API, ECharts, and     responsive UI animations.
+  Browse, search, and explore countries from around the world with beautiful visuals, detailed     pages, charts, and a theme-switching interface.
+  
+✨ Features
+🔎 Country Search & Filtering
+  Search countries instantly by name
+  Filter by region (Asia, Africa, Europe, etc.)
+  Sort by population or alphabetical order
+  Pagination for smooth browsing
+
+❤️ Favourites System
+  Add/remove countries to your favourites list
+  Saved locally using localStorage
+  Persistent even after refreshing the page
+
+📈 Interactive Charts Dashboard
+  Powered by ECharts:
+  Region-wise population (Pie Chart)
+  Countries per region (Bar Chart)
+  Total area per region (Line Chart)
+  Region selector with instant chart filtering
+  Fully animated + color-coded regions
+
+🌎 Detailed Country View
+  Each country page includes:
+  Flag & Coat of Arms
+  Capital, region, subregion
+  Languages & currencies
+  Area & population
+Google Maps link
+Interactive GeoMap (ECharts) showing the country’s location on the world map
+
+
 # .
 
 This template should help get you started developing with Vue 3 in Vite.
