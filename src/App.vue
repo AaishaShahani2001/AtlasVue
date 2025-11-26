@@ -2,14 +2,18 @@
   <div :class="['app', theme]">
     <Navbar @toggleTheme="toggleTheme" :theme="theme" />
     <router-view />
+    <BackToTop />
+    <Footer />
   </div>
 </template>
 
 <script>
 import Navbar from "./components/Navbar.vue";
+import Footer from "./components/Footer.vue";
+import BackToTop from "./components/BackToTop.vue";
 
 export default {
-  components: { Navbar },
+  components: { Navbar, Footer, BackToTop },
   data() {
     return { theme: "light" };
   },
